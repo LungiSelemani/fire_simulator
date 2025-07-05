@@ -31,7 +31,7 @@ void propagate_fire(char grid[SIZE][SIZE], char new_grid[SIZE][SIZE]) {
             if (grid[i][j] == BURNING) {
                 new_grid[i][j] = ASH;
 
-                // Propagation aux voisins
+                // Propagation aux voisins (8 directions)
                 int dx[] = {-1, -1, -1, 0, 0, 1, 1, 1};
                 int dy[] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
@@ -40,8 +40,11 @@ void propagate_fire(char grid[SIZE][SIZE], char new_grid[SIZE][SIZE]) {
                     int nj = j + dy[k];
 
                     if (ni >= 0 && ni < SIZE && nj >= 0 && nj < SIZE) {
-                        if (grid[ni][nj] == TREE)
-                            new_grid[ni][nj] = BURNING;
+                        if (grid[ni][nj] == TREE) {
+                            // Probabilité de propagation (ex: 70%)
+                            if ((rand() % 100) < 70)
+                                new_grid[ni][nj] = BURNING;
+                        }
                     }
                 }
             } else if (grid[i][j] == TREE || grid[i][j] == EMPTY || grid[i][j] == ASH) {
